@@ -1,0 +1,45 @@
+.App {
+    text-align: center;
+  }
+  .mainContainer {
+    position: relative;
+  }
+  
+  .backgroundContainer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("../../public/background.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    opacity: 0.4; /* Adjust the opacity as needed */
+  padding-bottom: 10em;
+  }
+  
+  .contentContainer {
+    position: relative;
+    z-index: 1;
+    padding: 20px;
+  }
+  
+  
+  .parameters-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    border: 1px solid red;
+  }
+  
+  .parameter-input {
+    margin: 5px;
+    width: calc(25% - 10px); /* 25% for 4 text fields per row */
+  }
+  
+  @media screen and (max-width: 600px) {
+    .parameter-input {
+      width: calc(100% - 10px); /* Full width for 1 text field per row on small screens */
+    }
+  }
+  
