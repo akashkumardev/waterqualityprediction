@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./water.css";
 import TextField from "@mui/material/TextField";
 import { Box, Button, Grid, Modal, Typography } from "@mui/material";
+import CustomizedTables from "./Table";
 
 //styles for the application
 const style = {
@@ -9,13 +10,14 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
+  width: 800,
   bgcolor: "background.paper",
   border: "2px solid #000",
   boxShadow: 24,
   p: 4,
 };
-function WaterQuality() {
+
+function WaterQualityPrediction() {
   //initial state of the form
   const [parameters, setParameters] = useState({
     pHValue: "",
@@ -38,60 +40,15 @@ function WaterQuality() {
 
   //usestate=>to store state of application
   const [waterQuality, setWaterQuality] = useState("");
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [assessmentData, setAssessmentData] = useState([]);
 
   //function to close the popup
   const handleClose = () => setOpen(false);
 
   //function to handle submit of form
-  // const assessWaterQuality = () => {
-  //   setOpen(true);
-  //   const limits = {
-  //     pHValue: [6.5, 8.5],
-  //     TDSValue: [500, 2000],
-  //     hardnessValue: [200, 600],
-  //     alkalinityValue: [200, 600],
-  //     nitrateValue: [0, 45],
-  //     sulfateValue: [200, 400],
-  //     fluorideValue: [1, 1.5],
-  //     chlorideValue: [250, 1000],
-  //     turbidityValue: [1, 5],
-  //     arsenicValue: [0.01, Infinity],
-  //     copperValue: [0.05, 1.5],
-  //     cadmiumValue: [0.003, Infinity],
-  //     chromiumValue: [0.05, Infinity],
-  //     leadValue: [0.01, Infinity],
-  //     ironValue: [1.0, Infinity],
-  //     zincValue: [5, 15],
-  //   };
-
-  //   for (const parameter of Object.keys(parameters)) {
-  //     const value = parseFloat(parameters[parameter]);
-  //     console.log(value, parameter);
-  //     let found = false;
-  //     for (const limit in limits) {
-  //       console.log(limit, "limit");
-  //       if (parameter === limit) {
-  //         const [lowerLimit, upperLimit] = limits[limit];
-  //         if (value < lowerLimit || value > upperLimit) {
-  //           setWaterQuality("Not fit for drink");
-  //           return;
-  //         }
-  //         found = true;
-  //         break;
-  //       }
-  //     }
-  //     if (!found) {
-  //       console.error(`No limit found for parameter ${parameter}`);
-  //     }
-  //   }
-  //   setWaterQuality("Fit for drink");
-  //   // setOpen(true)
-  // };
-
-
-
-  const assessWaterQuality = () => {
+//function to handle submit of form
+const assessWaterQuality = () => {
     setOpen(true);
     const limits = {
       pHValue: [6.5, 8.5],
@@ -113,12 +70,16 @@ function WaterQuality() {
     };
   
     let unfitParameters = [];
+    let overallQuality = "Fit for drink";
   
     for (const parameter of Object.keys(parameters)) {
-      const value = parseFloat(parameters[parameter]);
-      const [lowerLimit, upperLimit] = limits[parameter];
-      if (value < lowerLimit || value > upperLimit) {
-        unfitParameters.push(parameter);
+      if (parameters[parameter] !== "") {
+        const value = parseFloat(parameters[parameter]);
+        const [lowerLimit, upperLimit] = limits[parameter];
+        if (value < lowerLimit || value > upperLimit) {
+          unfitParameters.push(parameter);
+          overallQuality = "Not fit for drink";
+        }
       }
     }
   
@@ -130,8 +91,30 @@ function WaterQuality() {
       message = message.slice(0, -1); // Remove the trailing comma
       setWaterQuality(message);
     } else {
-      setWaterQuality("Fit for drink");
+      setWaterQuality(overallQuality);
     }
+  
+    const assessmentResults = [];
+    for (const parameter of Object.keys(parameters)) {
+      if (parameters[parameter] !== "") {
+        const value = parseFloat(parameters[parameter]);
+        const [lowerLimit, upperLimit] = limits[parameter];
+        let assessment = "";
+        if (value < lowerLimit) {
+          assessment = "Low";
+        } else if (value > upperLimit) {
+          assessment = "Critical";
+        } else {
+          assessment = "Within Range";
+        }
+        assessmentResults.push({
+          parameter,
+          range: `${lowerLimit} - ${upperLimit}`,
+          assessment,
+        });
+      }
+    }
+    setAssessmentData(assessmentResults);
   };
   
 
@@ -147,8 +130,6 @@ function WaterQuality() {
         <div className="backgroundContainer"></div>
         <div className="contentContainer">
           <h1 style={{ textAlign: "center" }}>Water Quality Assessment</h1>
-          {/* {Object.entries(parameters).map(([parameter, value]) => ( */}
-
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6} md={3}>
               <TextField
@@ -301,6 +282,9 @@ function WaterQuality() {
               </Button>
             </Grid>
           </Grid>
+          {/* <Button onClick={assessWaterQuality} variant="contained">
+            Assess Water Quality
+          </Button> */}
         </div>
       </div>
 
@@ -310,26 +294,35 @@ function WaterQuality() {
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
+      
       >
         <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
+          <Button
+           style={{
+            background:
+              "linear-gradient(to right, #30cfd0 0%, #330867 100%)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            fontWeight: "bold",
+          }}
+          id="modal-modal-title" variant="outlined" component="h2">
             Water Prediction Based On Data
+          </Button>
+          <Typography
+          style={{
+            background:
+              "linear-gradient(to right, #30cfd0 0%, #330867 100%)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            fontWeight: "bold",
+          }}
+          id="modal-modal-title" variant="h6" component="h2">
+           {waterQuality} 
           </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            {waterQuality && (
-              <p
-                style={{
-                  background:
-                    "linear-gradient(to right, #30cfd0 0%, #330867 100%)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  fontWeight: "bold",
-                }}
-              >
-                {waterQuality}
-              </p>
-            )}
-          </Typography>
+
+      
+
+          <CustomizedTables data={assessmentData}/>
           <Button onClick={() => setOpen(false)} variant="outlined">
             Close
           </Button>
@@ -339,4 +332,4 @@ function WaterQuality() {
   );
 }
 
-export default WaterQuality;
+export default WaterQualityPrediction;
