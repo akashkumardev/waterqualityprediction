@@ -109,6 +109,7 @@ const assessWaterQuality = () => {
         }
         assessmentResults.push({
           parameter,
+          value, // Include the value of the parameter
           range: `${lowerLimit} - ${upperLimit}`,
           assessment,
         });
@@ -116,6 +117,7 @@ const assessWaterQuality = () => {
     }
     setAssessmentData(assessmentResults);
   };
+  
   
 
   //function to handle onChange event of input field
@@ -323,7 +325,7 @@ const assessWaterQuality = () => {
       
 
           <CustomizedTables data={assessmentData}/>
-          <Button onClick={() => setOpen(false)} variant="outlined">
+          <Button style={{marginTop:"20px"}} onClick={() => setOpen(false)} variant="outlined">
             Close
           </Button>
         </Box>

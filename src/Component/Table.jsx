@@ -7,6 +7,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import Grid from '@mui/material/Grid';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -28,35 +29,31 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-
-
-
-
 export default function CustomizedTables({data}) {
   return (
-    <TableContainer style={{ maxHeight: '300px', overflowY: 'auto' }} component={Paper}>
-      <Table sx={{ minWidth: 700 }} aria-label="customized table">
+    <TableContainer style={{marginTop:"20px",maxHeight: '300px', overflowY: 'auto',}} component={Paper}>
+      <Table aria-label="customized table">
         <TableHead>
           <TableRow>
             <StyledTableCell>PARAMETER</StyledTableCell>
             <StyledTableCell align="right">RANGE</StyledTableCell>
-            <StyledTableCell
-            
-            align="right">ASSESSMENT</StyledTableCell>
-           
+            <StyledTableCell align="center">ENTERED VALUE</StyledTableCell>
+            <StyledTableCell align="right">ASSESSMENT</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {data.map((row,index) => (
-            <StyledTableRow key={row.name}>
+            <StyledTableRow key={index}>
               <StyledTableCell component="th" scope="row">
                 {row.parameter}
               </StyledTableCell>
               <StyledTableCell align="right">{row.range}</StyledTableCell>
+              <StyledTableCell align="center">{row.value}</StyledTableCell>
               <StyledTableCell
-              style={{ color: row.assessment === "Low" || row.assessment === "Critical" ? "red" : "green" }}
-              align="right">{row.assessment}</StyledTableCell>
-              
+                style={{ color: row.assessment === "Low" || row.assessment === "Critical" ? "red" : "green" }}
+                align="right">
+                {row.assessment}
+              </StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>
