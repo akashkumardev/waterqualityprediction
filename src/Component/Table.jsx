@@ -35,7 +35,7 @@ export default function CustomizedTables({data}) {
       <Table aria-label="customized table">
         <TableHead>
           <TableRow>
-            <StyledTableCell>PARAMETER</StyledTableCell>
+            <StyledTableCell>PARAMETER (UNIT)</StyledTableCell>
             <StyledTableCell align="right">RANGE</StyledTableCell>
             <StyledTableCell align="center">ENTERED VALUE</StyledTableCell>
             <StyledTableCell align="right">ASSESSMENT</StyledTableCell>
@@ -45,7 +45,7 @@ export default function CustomizedTables({data}) {
           {data.map((row,index) => (
             <StyledTableRow key={index}>
               <StyledTableCell component="th" scope="row">
-                {row.parameter}
+                {row.parameter==="turbidityValue"?`${row.parameter} (NTU)`:row?.parameter==="TDSValue"?row?.parameter:`${row?.parameter} (mg/l)`}
               </StyledTableCell>
               <StyledTableCell align="right">{row.range}</StyledTableCell>
               <StyledTableCell align="center">{row.value}</StyledTableCell>
