@@ -18,6 +18,8 @@ const style = {
 };
 
 function WaterQualityPrediction() {
+
+
   //initial state of the form
   const [parameters, setParameters] = useState({
     pHValue: "",
@@ -52,21 +54,21 @@ const assessWaterQuality = () => {
     setOpen(true);
     const limits = {
       pHValue: [6.5, 8.5],
-      TDSValue: [500, 2000],
-      hardnessValue: [200, 600],
-      alkalinityValue: [200, 600],
+      TDSValue: [50, 200],
+      hardnessValue: [75, 200],
+      alkalinityValue: [20, 200],
       nitrateValue: [0, 45],
-      sulfateValue: [200, 400],
+      sulfateValue: [0, 200],
       fluorideValue: [1, 1.5],
-      chlorideValue: [250, 1000],
-      turbidityValue: [1, 5],
-      arsenicValue: [0.01, Infinity],
-      copperValue: [0.05, 1.5],
-      cadmiumValue: [0.003, Infinity],
-      chromiumValue: [0.05, Infinity],
-      leadValue: [0.01, Infinity],
-      ironValue: [1.0, Infinity],
-      zincValue: [5, 15],
+      chlorideValue: [0,250],
+      turbidityValue: [0,1],
+      arsenicValue: [0, 0.1],
+      copperValue: [0.05, 1.5],//NOT
+      cadmiumValue: [0,0.003],
+      chromiumValue: [0,0.05],
+      leadValue: [0,0.01],
+      ironValue: [0,0.3],
+      zincValue: [0,5],
     };
   
     let unfitParameters = [];
